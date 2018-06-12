@@ -1,7 +1,9 @@
 {% import "_includes/forms" as forms %}
 
 <input type="hidden" name="hasUrls" value="1">
-<input type="hidden" name="url" value="/aws-s3-helper/private/view">
+
+<!--Need to input a url value to bypass url empty validation-->
+<input type="hidden" name="url" value="/">
 {{ forms.textField({
     label: "Access Key ID"|t('aws-s3-helper'),
     id: 'keyId',

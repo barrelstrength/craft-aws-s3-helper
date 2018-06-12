@@ -7,7 +7,9 @@ use barrelstrength\awss3helper\volumes\Restricted;
 use craft\base\Plugin;
 use Craft;
 use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterUrlRulesEvent;
 use craft\services\Volumes;
+use craft\web\UrlManager;
 use yii\base\Event;
 
 
@@ -32,6 +34,12 @@ class AwsS3Helper extends Plugin
 
         Event::on(Volumes::class, Volumes::EVENT_REGISTER_VOLUME_TYPES, function(RegisterComponentTypesEvent $event) {
             $event->types[] = Restricted::class;
+        });
+
+        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_SITE_URL_RULES, function(RegisterUrlRulesEvent $event) {
+
+            $event->rules['aws-s3-helper/restricted/<volumeId:\d+>'] = 'aws-s3-helper/restricted/view';
+
         });
     }
 }

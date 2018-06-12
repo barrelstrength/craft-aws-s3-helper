@@ -17,6 +17,8 @@ use craft\helpers\Assets;
  */
 class Restricted extends Volume
 {
+    const BASE_URL_RESTRICTED = "/aws-s3-helper/restricted/";
+
     public static function displayName(): string
     {
         return 'Sprout Amazon S3 Restricted';
@@ -34,5 +36,19 @@ class Restricted extends Volume
             'periods' => array_merge(['' => ''], Assets::periodList()),
             //'storageClasses' => static::storageClasses(),
         ]);
+    }
+
+    public function getRootUrl()
+    {
+        return static::BASE_URL_RESTRICTED . $this->id . "?file=";
+    }
+
+    public function getObject($file)
+    {
+        $adapter = $this->createAdapter();
+
+        $read = $adapter->read($file);
+
+        return $read;
     }
 }
