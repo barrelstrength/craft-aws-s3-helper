@@ -5,6 +5,7 @@ namespace barrelstrength\awss3helper\volumes;
 use craft\awss3\Volume;
 use Craft;
 use craft\helpers\Assets;
+use League\Flysystem\AdapterInterface;
 
 /**
  * Class Volume
@@ -21,7 +22,7 @@ class Restricted extends Volume
 
     public static function displayName(): string
     {
-        return 'Sprout Amazon S3 Restricted';
+        return 'Amazon S3 Helper Restricted';
     }
 
     /**
@@ -50,5 +51,15 @@ class Restricted extends Volume
         $read = $adapter->read($file);
 
         return $read;
+    }
+
+    /**
+     * Returns the visibility setting for the Volume.
+     *
+     * @return string
+     */
+    protected function visibility(): string
+    {
+        return AdapterInterface::VISIBILITY_PRIVATE;
     }
 }

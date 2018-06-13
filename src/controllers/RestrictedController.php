@@ -19,8 +19,6 @@ class RestrictedController extends Controller
              */
             $volume = Craft::$app->getVolumes()->getVolumeById($volumeId);
 
-            $file = $volume->subfolder . $file;
-
             $stream = $volume->getObject($file);
 
             header("Content-Type: {$stream['mimetype']}");
