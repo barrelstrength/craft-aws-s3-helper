@@ -39,7 +39,6 @@ class AwsS3Helper extends Plugin
         Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_SITE_URL_RULES, function(RegisterUrlRulesEvent $event) {
 
             $event->rules['aws-s3-helper/restricted/<volumeId:\d+>'] = 'aws-s3-helper/restricted/view';
-
         });
     }
 }
