@@ -38,7 +38,8 @@
         <div class="spinner hidden"></div>
     </div>
 
-    <input type="hidden" name="region" class="s3-helper-region" value="{{ volume.region }}" />
+    <input type="hidden" name="region" class="s3-helper-region"
+           value="{{ volume.region }}"/>
 {% endset %}
 
 {{ forms.field({
@@ -70,7 +71,7 @@
 }) }#}
 
 {% set cacheInput %}
-    {% set expires = (volume.expires|length > 0 ? volume.expires|split(' ') : ['', ''])%}
+    {% set expires = (volume.expires|length > 0 ? volume.expires|split(' ') : ['', '']) %}
 
     <div class="flex">
         <div>
