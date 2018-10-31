@@ -11,7 +11,7 @@ class RestrictedController extends Controller
     public function actionView()
     {
         $volumeId = Craft::$app->getRequest()->getSegment(3);
-        $file = Craft::$app->getRequest()->getParam('file');
+        $file = Craft::$app->getRequest()->getSegment(4);
 
         if ($volumeId) {
             /**
@@ -22,6 +22,7 @@ class RestrictedController extends Controller
             $stream = $volume->getObject($file);
 
             header("Content-Type: {$stream['mimetype']}");
+
             echo $stream['contents'];
             exit;
         }
