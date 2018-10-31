@@ -1,71 +1,71 @@
-var $s3AccessKeyIdInput = $('.s3-helper-key-id'),
-    $s3SecretAccessKeyInput = $('.s3-helper-secret-key'),
-    $s3BucketSelect = $('.s3-helper-bucket-select > select'),
-    $s3RefreshBucketsBtn = $('.s3-helper-refresh-buckets'),
-    $s3RefreshBucketsSpinner = $s3RefreshBucketsBtn.parent().next().children(),
-    $s3Region = $('.s3-helper-region'),
+var $s3HelperAccessKeyIdInput = $('.s3-helper-key-id'),
+    $s3HelperSecretAccessKeyInput = $('.s3-helper-secret-key'),
+    $s3HelperBucketSelect = $('.s3-helper-bucket-select > select'),
+    $s3HelperRefreshBucketsBtn = $('.s3-helper-refresh-buckets'),
+    $s3HelperRefreshBucketsSpinner = $s3HelperRefreshBucketsBtn.parent().next().children(),
+    $s3HelperRegion = $('.s3-helper-region'),
     refreshingS3Buckets = false;
 
-$s3RefreshBucketsBtn.click(function() {
-    if ($s3RefreshBucketsBtn.hasClass('disabled')) {
+$s3HelperRefreshBucketsBtn.click(function() {
+    if ($s3HelperRefreshBucketsBtn.hasClass('disabled')) {
         return;
     }
 
-    $s3RefreshBucketsBtn.addClass('disabled');
-    $s3RefreshBucketsSpinner.removeClass('hidden');
+    $s3HelperRefreshBucketsBtn.addClass('disabled');
+    $s3HelperRefreshBucketsSpinner.removeClass('hidden');
 
     var data = {
-        keyId: $s3AccessKeyIdInput.val(),
-        secret: $s3SecretAccessKeyInput.val()
+        keyId:  $s3HelperAccessKeyIdInput.val(),
+        secret: $s3HelperSecretAccessKeyInput.val()
     };
     console.log(data);
     Craft.postActionRequest('aws-s3', data, function(response, textStatus) {
-        $s3RefreshBucketsBtn.removeClass('disabled');
-        $s3RefreshBucketsSpinner.addClass('hidden');
+        $s3HelperRefreshBucketsBtn.removeClass('disabled');
+        $s3HelperRefreshBucketsSpinner.addClass('hidden');
 
         if (textStatus == 'success') {
             if (response.error) {
                 alert(response.error);
             }
             else if (response.length > 0) {
-                var currentBucket = $s3BucketSelect.val(),
+                var currentBucket = $s3HelperBucketSelect.val(),
                     currentBucketStillExists = false;
 
                 refreshingS3Buckets = true;
 
-                $s3BucketSelect.prop('readonly', false).empty();
+                $s3HelperBucketSelect.prop('readonly', false).empty();
 
                 for (var i = 0; i < response.length; i++) {
                     if (response[i].bucket == currentBucket) {
                         currentBucketStillExists = true;
                     }
 
-                    $s3BucketSelect.append('<option value="' + response[i].bucket + '" data-url-prefix="' + response[i].urlPrefix + '" data-region="' + response[i].region + '">' + response[i].bucket + '</option>');
+                    $s3HelperBucketSelect.append('<option value="' + response[i].bucket + '" data-url-prefix="' + response[i].urlPrefix + '" data-region="' + response[i].region + '">' + response[i].bucket + '</option>');
                 }
 
                 if (currentBucketStillExists) {
-                    $s3BucketSelect.val(currentBucket);
+                    $s3HelperBucketSelect.val(currentBucket);
                 }
 
                 refreshingS3Buckets = false;
 
                 if (!currentBucketStillExists) {
-                    $s3BucketSelect.trigger('change');
+                    $s3HelperBucketSelect.trigger('change');
                 }
             }
         }
     });
 });
 
-$s3BucketSelect.change(function() {
+$s3HelperBucketSelect.change(function() {
     if (refreshingS3Buckets) {
         return;
     }
 
-    var $selectedOption = $s3BucketSelect.children('option:selected');
+    var $selectedOption = $s3HelperBucketSelect.children('option:selected');
 
     $('.volume-url').val($selectedOption.data('url-prefix'));
-    $s3Region.val($selectedOption.data('region'));
+    $s3HelperRegion.val($selectedOption.data('region'));
 });
 
 var s3ChangeExpiryValue = function() {
