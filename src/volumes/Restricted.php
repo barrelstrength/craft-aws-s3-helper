@@ -41,7 +41,7 @@ class Restricted extends Volume
 
     public function getRootUrl()
     {
-        return static::BASE_URL_RESTRICTED.$this->id."/";
+        return static::BASE_URL_RESTRICTED.$this->id .  "/?file=";
     }
 
     public function getObject($file)
