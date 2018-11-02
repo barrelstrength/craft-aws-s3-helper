@@ -21,6 +21,7 @@ class RestrictedController extends Controller
 
             $stream = $volume->getObject($file);
 
+            header('Content-Disposition: inline; filename="' . $stream['basename'] . '"');
             header("Content-Type: {$stream['mimetype']}");
             echo $stream['contents'];
             exit;
